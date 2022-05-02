@@ -1,0 +1,57 @@
+#Nawabi OS
+
+name: MacOs Workflow
+
+on:
+    push:
+    workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: macos-10.15
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@main
+       - name: ffmpeg
+       - uses: FedericoCarboni/setup-ffmpeg@v1
+       
+       
+       - uses: styfle/cancel-workflow-action@0.9.0
+         name: "Cancel duplicate workflow runs"
+         with:
+            all_but_latest: true
+            access_token: ${{ github.token }}
+       - name: initialization
+         continue-on-error: true
+         run: |
+           git config --global user.name ${{ secrets.GitHubName }}
+           git config --global user.email ${{ secrets.GitHubMail }}
+           git config --global credential.helper store
+           echo "https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+       - name: cloning repo
+         continue-on-error: false
+         run: |
+           git clone https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@${{ secrets.CREDS }} SedLoif
+       - name: Running Ultroid
+         timeout-minutes: 350
+         continue-on-error: true
+         run: |
+           sudo apt-get update -y && sudo apt-get upgrade -y
+           sudo apt-get install python3-pip ffmpeg -y
+           curl -fssL https://deb.nodesource.com/setup_17.x | sudo -E bash - && sudo apt-get install nodejs -y && npm i -g npm
+           pip3 install --upgrade pip
+           git clone https://github.com/TeamYukki/YukkiMusicBot
+           cp SedLoif/.env YukkiMusicBot/.env
+           cd YukkiMusicBot
+           pip3 install --no-cache-dir --ignore-installed --force-reinstall -U -r req*
+           bash start
+       - name: Loop workflow
+         continue-on-error: true
+         run: |
+              git clone https://github.com/${GITHUB_REPOSITORY} loop
+              cd loop || exit 1
+              echo $(date -u +%T%P) >> loop.txt
+              git add loop.txt
+              git commit -m "Workflow : Loop $(date -u +%D-%T%P)"
+              git push -q https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} HEAD:main
