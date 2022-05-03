@@ -15,16 +15,14 @@ jobs:
        - name: ffmpeg
        - uses: FedericoCarboni/setup-ffmpeg@v1
 
-       - name: nodejs
+       
        - uses: actions/setup-node@v3
+       - name: nodejs
          with:
-           node-version: '16'
-           check-latest: true
+            node-version: '16'
+            check-latest: true
        - run: npm install
 
-       - name essentials 
-       - run: brew install git
-              brew update
 
        - uses: styfle/cancel-workflow-action@0.9.0
          name: "Cancel duplicate workflow runs"
