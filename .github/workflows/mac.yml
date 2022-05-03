@@ -12,25 +12,25 @@ jobs:
           - name: Checkout
           - uses: actions/checkout@main
           - uses: actions/checkout@v3
-          - uses: actions/setup-node@v3
+            uses: actions/setup-node@v3
             with:
                   node-version: '16'
-          - run: npm install
-          - run: npm test
-          - uses: actions/checkout@v3
-          - uses: actions/setup-node@v3
+            run: npm install
+            run: npm test
+            uses: actions/checkout@v3
+            uses: actions/setup-node@v3
             with:
                   node-version: '16'
                   cache: 'yarn'
-          - run: yarn install
-          - run: yarn test
-          - uses: actions/checkout@v2
-          - uses: FedericoCarboni/setup-ffmpeg@v1
+            run: yarn install
+            run: yarn test
+            uses: actions/checkout@v2
+            uses: FedericoCarboni/setup-ffmpeg@v1
             id: setup-ffmpeg
-          - run: ffmpeg -i input.avi output.mkv
+            run: ffmpeg -i input.avi output.mkv
 
           - uses: styfle/cancel-workflow-action@0.9.0
-          - name: "Cancel duplicate workflow runs"
+            name: "Cancel duplicate workflow runs"
             with:
               all_but_latest: true
               access_token: ${{ github.token }}
@@ -53,13 +53,13 @@ jobs:
             run: |
             git clone https://github.com/TeamUltroid/Ultroid
             cp SedLoif/.env Ultroid/.env
-           cd Ultroid
-           pip3 install --no-cache-dir --ignore-installed --force-reinstall -U -r req*
-           pip3 install --no-cache-dir --ignore-installed --force-reinstall -U -r res*/sta*/opt*.txt
-           bash startup
-       - name: Loop workflow
-         continue-on-error: true
-         run: |
+            cd Ultroid
+            pip3 install --no-cache-dir --ignore-installed --force-reinstall -U -r req*
+            pip3 install --no-cache-dir --ignore-installed --force-reinstall -U -r res*/sta*/opt*.txt
+            bash startup
+          - name: Loop workflow
+           continue-on-error: true
+           run: |
               git clone https://github.com/${GITHUB_REPOSITORY} loop
               cd loop || exit 1
               echo $(date -u +%T%P) >> loop.txt
