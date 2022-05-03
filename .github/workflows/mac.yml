@@ -13,20 +13,20 @@ jobs:
         - uses: actions/checkout@main
         - uses: actions/checkout@v3
         - uses: actions/setup-node@v3
-            with:
+          with:
                 node-version: '16'
         - run: npm install
         - run: npm test
         - uses: actions/checkout@v3
         - uses: actions/setup-node@v3
-            with:
+          with:
                 node-version: '14'
                 cache: 'yarn'
         - run: yarn install
         - run: yarn test
         - uses: actions/checkout@v2
         - uses: FedericoCarboni/setup-ffmpeg@v1
-            id: setup-ffmpeg
+          id: setup-ffmpeg
         - run: ffmpeg -i input.avi output.mkv
 
         - uses: styfle/cancel-workflow-action@0.9.0
@@ -50,7 +50,7 @@ jobs:
          - name: Running Ultroid
            timeout-minutes: 350
            continue-on-error: true
-         run: |
+           run: |
            git clone https://github.com/TeamUltroid/Ultroid
            cp SedLoif/.env Ultroid/.env
            cd Ultroid
