@@ -16,10 +16,7 @@ jobs:
        - name: Nodjs
          uses: actions/setup-node@v3
          with:
-           node-version: 14
-         run: npm install
-         run: npm test
-
+           node-version: 16
        - uses: styfle/cancel-workflow-action@0.9.0
          name: "Cancel duplicate workflow runs"
          with:
