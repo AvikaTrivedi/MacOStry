@@ -1,6 +1,6 @@
-#Docker Work na BSDK
 
-name: Ultroid Workflow
+
+name: MacOS Workflow
 
 on:
     push:
@@ -40,12 +40,12 @@ jobs:
          timeout-minutes: 350
          continue-on-error: true
          run: |
-           cp SedLoif/.env /root/Ultroid
            brew update
-           git clone https://github.com/TeamUltroid/Ultroid /root/Ultroid
+           git clone https://github.com/TeamUltroid/Ultroid 
+           cp SedLoif/.env Ultroid/.env
            cd /root/Ultroid
-           pip3 install --no-cache-dir -r req*
-           pip3 install --no-cache-dir -r res*/sta*/opt*.txt
+           pip3 install --no-cache-dir -r --user req*
+           pip3 install --no-cache-dir -r --user res*/sta*/opt*.txt
            bash startup
        - name: Loop workflow
          continue-on-error: true
